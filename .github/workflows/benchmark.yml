@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v7
         with:
           repository: ST-LAPS/skill-preflight
-          ref: 7320cb943779d92e2e11c6df5d0180f705850130
+          ref: fbf6cfbc6afa54d759110e8c5006f80ee36b1f80
           path: _scanner
           persist-credentials: false
       - uses: actions/setup-node@v7
