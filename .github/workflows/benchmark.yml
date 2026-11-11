@@ -1,0 +1,33 @@
+name: Public skills benchmark
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - benchmark-run.mjs
+      - .github/workflows/benchmark.yml
+permissions:
+  contents: read
+jobs:
+  benchmark:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7
+        with:
+          repository: ST-LAPS/skill-preflight
+          ref: 7320cb943779d92e2e11c6df5d0180f705850130
+          path: _scanner
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - name: Inspect ten full snapshots without executing their code
+        run: node benchmark-run.mjs
+      - uses: actions/upload-artifact@v7
+        with:
+          name: public-skills-benchmark
+          path: benchmark-results/
+          if-no-files-found: error
+          retention-days: 30
