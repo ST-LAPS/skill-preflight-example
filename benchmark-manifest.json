@@ -1,0 +1,45 @@
+{
+  "baselineRun": "https://github.com/ST-LAPS/skill-preflight-example/actions/runs/43008060439",
+  "repositories": [
+    {
+      "repo": "anthropics/skills",
+      "commit": "2c5958ecac7cee2b583967a2c4981d0f4a75c579"
+    },
+    {
+      "repo": "openai/skills",
+      "commit": "49f948faa9258a0c61caceaf225e179651397431"
+    },
+    {
+      "repo": "vercel-labs/agent-skills",
+      "commit": "1a2c79d4e6c4a2283dc2c614b6538cbe1ed5ca62"
+    },
+    {
+      "repo": "obra/superpowers",
+      "commit": "22f0b463e7a5e579904dd6211a520321035526f7"
+    },
+    {
+      "repo": "trailofbits/skills",
+      "commit": "e4dd0bb5b15535f7c5a0834187dffba6ac37e4ff"
+    },
+    {
+      "repo": "hashicorp/agent-skills",
+      "commit": "5e30fa5c867ba6777c37e4206babfd08049c396f"
+    },
+    {
+      "repo": "huggingface/skills",
+      "commit": "25910b3d0ba31a2ba102f901cdc9e008c278a69c"
+    },
+    {
+      "repo": "remotion-dev/skills",
+      "commit": "1fc074b74b95cfecf7b1e419132f2cfe23dafebe"
+    },
+    {
+      "repo": "supabase/agent-skills",
+      "commit": "c9be0e931b7930f7d02126d04774d904c381e7d7"
+    },
+    {
+      "repo": "getsentry/skills",
+      "commit": "e94f22214528d69899d09c627b3315ddc3544816"
+    }
+  ]
+}

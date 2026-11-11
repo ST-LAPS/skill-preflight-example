@@ -11,6 +11,7 @@ const repositories = [
   'huggingface/skills', 'remotion-dev/skills', 'supabase/agent-skills', 'getsentry/skills',
 ];
 const scannerRoot = path.resolve(process.env.SCANNER_ROOT || '_scanner');
+const manifest = fs.existsSync('benchmark-manifest.json') ? JSON.parse(fs.readFileSync('benchmark-manifest.json','utf8')) : null;
 const { scan } = await import(pathToFileURL(path.join(scannerRoot, 'preflight.mjs')));
 const output = path.resolve('benchmark-results');
 fs.mkdirSync(output, { recursive: true });
@@ -31,7 +32,9 @@ try {
     fs.mkdirSync(root);
     git(['init','--quiet'],root);
     git(['remote','add','origin',`https://github.com/${repo}.git`],root);
-    git(['fetch','--quiet','--depth=1','origin','main'],root);
+    const ref = manifest ? manifest.repositories.find(item=>item.repo===repo)?.commit : 'main';
+    if (manifest && !/^[a-f0-9]{40}$/.test(ref || '')) throw new Error(`Missing immutable commit for ${repo}`);
+    git(['fetch','--quiet','--depth=1','origin',ref],root);
     git(['checkout','--quiet','--detach','FETCH_HEAD'],root);
     const commit = git(['rev-parse','HEAD'],root);
     const result = scan(root);
