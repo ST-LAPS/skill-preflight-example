@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v7
       - name: Check this repository using the remote action
         id: check
-        uses: ST-LAPS/skill-preflight@7320cb943779d92e2e11c6df5d0180f705850130
+        uses: ST-LAPS/skill-preflight@fbf6cfbc6afa54d759110e8c5006f80ee36b1f80 # v0.3.1
         with:
           path: .
           language: ar
@@ -29,4 +29,38 @@ jobs:
         run: |
           test "$SKILLS" = "1"
           test "$ERRORS" = "0"
+          test "$WARNINGS" = "0"
+      - name: Create a skill with one missing local link
+        shell: bash
+        run: |
+          mkdir preflight-fixture
+          touch preflight-fixture/present.md
+          cat > preflight-fixture/SKILL.md <<'EOF'
+          ---
+          name: missing-link-example
+          description: A skill with one missing link.
+            This description spans two lines.
+          ---
+          [Present file]({baseDir}/present.md)
+          [Missing file]({baseDir}/missing.md)
+          EOF
+      - name: Check the skill with the missing link
+        id: broken
+        continue-on-error: true
+        uses: ST-LAPS/skill-preflight@fbf6cfbc6afa54d759110e8c5006f80ee36b1f80 # v0.3.1
+        with:
+          path: preflight-fixture
+          language: en
+          strict: 'false'
+      - name: Verify the published action rejected the missing link
+        shell: bash
+        env:
+          OUTCOME: ${{ steps.broken.outcome }}
+          SKILLS: ${{ steps.broken.outputs.skills }}
+          ERRORS: ${{ steps.broken.outputs.errors }}
+          WARNINGS: ${{ steps.broken.outputs.warnings }}
+        run: |
+          test "$OUTCOME" = "failure"
+          test "$SKILLS" = "1"
+          test "$ERRORS" = "1"
           test "$WARNINGS" = "0"
